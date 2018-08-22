@@ -1498,12 +1498,16 @@ int boot_linux_from_storage(void)
 			cmdline_append(cmdline_tmpbuf);
 #endif
 #ifdef MTK_GPT_SCHEME_SUPPORT
-		        if (mtk_detect_key(17) && mtk_detect_key(8)) // 8 = POWER KEY
-			    ret = mboot_android_load_bootimg_hdr("boot3", CFG_BOOTIMG_LOAD_ADDR);
-			else if (mtk_detect_key(17)) // 17 = SIDE BUTTON KEY
-			    ret = mboot_android_load_bootimg_hdr("boot2", CFG_BOOTIMG_LOAD_ADDR);
-			else
-			    ret = mboot_android_load_bootimg_hdr("boot", CFG_BOOTIMG_LOAD_ADDR);
+			if (mtk_detect_key(17) && mtk_detect_key(8)) { // 8 = POWER KEY
+				cmdline_append("androidboot.bootpartition=boot3");
+				ret = mboot_android_load_bootimg_hdr("boot3", CFG_BOOTIMG_LOAD_ADDR);
+			} else if (mtk_detect_key(17)) { // 17 = SIDE BUTTON KEY
+				cmdline_append("androidboot.bootpartition=boot2");
+				ret = mboot_android_load_bootimg_hdr("boot2", CFG_BOOTIMG_LOAD_ADDR);
+			} else {
+				cmdline_append("androidboot.bootpartition=boot");
+				ret = mboot_android_load_bootimg_hdr("boot", CFG_BOOTIMG_LOAD_ADDR);
+			}
 #else
 			ret = mboot_android_load_bootimg_hdr(PART_BOOTIMG, CFG_BOOTIMG_LOAD_ADDR);
 #endif
@@ -1518,12 +1522,16 @@ int boot_linux_from_storage(void)
 			}
 
 #ifdef MTK_GPT_SCHEME_SUPPORT
-			if (mtk_detect_key(17) && mtk_detect_key(8))
-			    ret = mboot_android_load_bootimg("boot3", kimg_load_addr);
-                        else if (mtk_detect_key(17))
-			    ret = mboot_android_load_bootimg("boot2", kimg_load_addr);
-			else
-			    ret = mboot_android_load_bootimg("boot", kimg_load_addr);
+			if (mtk_detect_key(17) && mtk_detect_key(8)) {
+				cmdline_append("androidboot.bootpartition=boot3");
+				ret = mboot_android_load_bootimg("boot3", kimg_load_addr);
+			} else if (mtk_detect_key(17)) {
+				cmdline_append("androidboot.bootpartition=boot2");
+				ret = mboot_android_load_bootimg("boot2", kimg_load_addr);
+			} else {
+				cmdline_append("androidboot.bootpartition=boot");
+				ret = mboot_android_load_bootimg("boot", kimg_load_addr);
+			}
 #else
 			ret = mboot_android_load_bootimg(PART_BOOTIMG, kimg_load_addr);
 #endif
@@ -1537,6 +1545,7 @@ int boot_linux_from_storage(void)
 			break;
 
 		case RECOVERY_BOOT:
+			cmdline_append("androidboot.bootpartition=recovery");
 #ifdef MTK_GPT_SCHEME_SUPPORT
 			ret = mboot_android_load_recoveryimg_hdr("recovery", CFG_BOOTIMG_LOAD_ADDR);
 #else
@@ -1574,12 +1583,16 @@ int boot_linux_from_storage(void)
 #endif
 
 #ifdef MTK_GPT_SCHEME_SUPPORT
-			if (mtk_detect_key(17) && mtk_detect_key(8))
-			    ret = mboot_android_load_bootimg_hdr("boot3", CFG_BOOTIMG_LOAD_ADDR);
-                        else if (mtk_detect_key(17))
-			    ret = mboot_android_load_bootimg_hdr("boot2", CFG_BOOTIMG_LOAD_ADDR);
-                        else
-			    ret = mboot_android_load_bootimg_hdr("boot", CFG_BOOTIMG_LOAD_ADDR);
+			if (mtk_detect_key(17) && mtk_detect_key(8)) {
+				cmdline_append("androidboot.bootpartition=boot3");
+				ret = mboot_android_load_bootimg_hdr("boot3", CFG_BOOTIMG_LOAD_ADDR);
+			} else if (mtk_detect_key(17)) {
+				cmdline_append("androidboot.bootpartition=boot2");
+				ret = mboot_android_load_bootimg_hdr("boot2", CFG_BOOTIMG_LOAD_ADDR);
+			} else {
+				cmdline_append("androidboot.bootpartition=boot");
+				ret = mboot_android_load_bootimg_hdr("boot", CFG_BOOTIMG_LOAD_ADDR);
+			}
 #else
 			ret = mboot_android_load_bootimg_hdr(PART_BOOTIMG, CFG_BOOTIMG_LOAD_ADDR);
 #endif
@@ -1594,12 +1607,16 @@ int boot_linux_from_storage(void)
 			}
 
 #ifdef MTK_GPT_SCHEME_SUPPORT
-			if (mtk_detect_key(17) && mtk_detect_key(8))
-			    ret = mboot_android_load_bootimg("boot3", kimg_load_addr);
-                        else if (mtk_detect_key(17))
-			    ret = mboot_android_load_bootimg("boot2", kimg_load_addr);
-                        else
-			    ret = mboot_android_load_bootimg("boot", kimg_load_addr);
+			if (mtk_detect_key(17) && mtk_detect_key(8)) {
+				cmdline_append("androidboot.bootpartition=boot3");
+				ret = mboot_android_load_bootimg("boot3", kimg_load_addr);
+			} else if (mtk_detect_key(17)) {
+				cmdline_append("androidboot.bootpartition=boot2");
+				ret = mboot_android_load_bootimg("boot2", kimg_load_addr);
+			} else {
+				cmdline_append("androidboot.bootpartition=boot");
+				ret = mboot_android_load_bootimg("boot", kimg_load_addr);
+			}
 #else
 			ret = mboot_android_load_bootimg(PART_BOOTIMG, kimg_load_addr);
 #endif
