@@ -168,7 +168,7 @@ void boot_mode_select(void)
 			return;
 		}
 #ifdef MT65XX_RECOVERY_KEY
-		if (mtk_detect_key(MT65XX_RECOVERY_KEY)) {
+		if (mtk_detect_key(MTK_PMIC_PWR_KEY) && !mtk_detect_key(17)) {
 			dprintf(CRITICAL, "%s Detect cal key\n",MODULE_NAME);
 			dprintf(CRITICAL, "%s Enable recovery mode\n",MODULE_NAME);
 			g_boot_mode = RECOVERY_BOOT;
@@ -239,7 +239,7 @@ void boot_mode_select(void)
 		}
 #endif
 #ifdef MT65XX_RECOVERY_KEY
-		if (mtk_detect_key(MT65XX_RECOVERY_KEY)) {
+		if (mtk_detect_key(MTK_PMIC_PWR_KEY) && !mtk_detect_key(17)) {
 			dprintf(INFO, "%s Detect cal key\n",MODULE_NAME);
 			dprintf(INFO, "%s Enable recovery mode\n",MODULE_NAME);
 			g_boot_mode = RECOVERY_BOOT;
