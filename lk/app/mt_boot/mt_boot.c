@@ -1523,13 +1523,10 @@ int boot_linux_from_storage(void)
 
 #ifdef MTK_GPT_SCHEME_SUPPORT
 			if (mtk_detect_key(17) && mtk_detect_key(8)) {
-				cmdline_append("androidboot.bootpartition=boot3");
 				ret = mboot_android_load_bootimg("boot3", kimg_load_addr);
 			} else if (mtk_detect_key(17)) {
-				cmdline_append("androidboot.bootpartition=boot2");
 				ret = mboot_android_load_bootimg("boot2", kimg_load_addr);
 			} else {
-				cmdline_append("androidboot.bootpartition=boot");
 				ret = mboot_android_load_bootimg("boot", kimg_load_addr);
 			}
 #else
@@ -1545,8 +1542,8 @@ int boot_linux_from_storage(void)
 			break;
 
 		case RECOVERY_BOOT:
-			cmdline_append("androidboot.bootpartition=recovery");
 #ifdef MTK_GPT_SCHEME_SUPPORT
+			cmdline_append("androidboot.bootpartition=recovery");
 			ret = mboot_android_load_recoveryimg_hdr("recovery", CFG_BOOTIMG_LOAD_ADDR);
 #else
 			ret = mboot_android_load_recoveryimg_hdr(PART_RECOVERY, CFG_BOOTIMG_LOAD_ADDR);
@@ -1608,13 +1605,10 @@ int boot_linux_from_storage(void)
 
 #ifdef MTK_GPT_SCHEME_SUPPORT
 			if (mtk_detect_key(17) && mtk_detect_key(8)) {
-				cmdline_append("androidboot.bootpartition=boot3");
 				ret = mboot_android_load_bootimg("boot3", kimg_load_addr);
 			} else if (mtk_detect_key(17)) {
-				cmdline_append("androidboot.bootpartition=boot2");
 				ret = mboot_android_load_bootimg("boot2", kimg_load_addr);
 			} else {
-				cmdline_append("androidboot.bootpartition=boot");
 				ret = mboot_android_load_bootimg("boot", kimg_load_addr);
 			}
 #else
