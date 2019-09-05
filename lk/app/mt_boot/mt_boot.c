@@ -2205,12 +2205,16 @@ int boot_linux_from_storage(void)
 		cmdline_append(cmdline_tmpbuf);
 #endif
 #ifdef MTK_GPT_SCHEME_SUPPORT
-        if (mtk_detect_key(17) && mtk_detect_key(8)) // 8 = POWER KEY
+        if (mtk_detect_key(17) && mtk_detect_key(8)) { // 8 = POWER KEY
+            cmdline_append("androidboot.bootpartition=boot3");
             ret = mboot_android_load_bootimg_hdr("boot3", CFG_BOOTIMG_LOAD_ADDR);
-        else if (mtk_detect_key(17)) // 17 = SIDE BUTTON KEY
+        } else if (mtk_detect_key(17)) {// 17 = SIDE BUTTON KEY
+            cmdline_append("androidboot.bootpartition=boot2");
             ret = mboot_android_load_bootimg_hdr("boot2", CFG_BOOTIMG_LOAD_ADDR);
-        else
+        } else {
+            cmdline_append("androidboot.bootpartition=boot");
             ret = mboot_android_load_bootimg_hdr("boot", CFG_BOOTIMG_LOAD_ADDR);
+        }
 #else
 		ret = mboot_android_load_bootimg_hdr(PART_BOOTIMG, CFG_BOOTIMG_LOAD_ADDR);
 #endif
@@ -2244,6 +2248,7 @@ int boot_linux_from_storage(void)
 	case RECOVERY_BOOT:
 		PROFILING_START("load recovery.img"); /* recovery */
 #ifdef MTK_GPT_SCHEME_SUPPORT
+		cmdline_append("androidboot.bootpartition=recovery");
 		ret = mboot_android_load_recoveryimg_hdr("recovery", CFG_BOOTIMG_LOAD_ADDR);
 #else
 		ret = mboot_android_load_recoveryimg_hdr(PART_RECOVERY, CFG_BOOTIMG_LOAD_ADDR);

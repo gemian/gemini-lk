@@ -187,15 +187,18 @@ int set_write_protect()
 		sprintf(wp_start, "%s", "oemkeystore");
 #endif
 
-#ifdef MTK_SECURITY_SW_SUPPORT
-		if (TRUE == seclib_sec_boot_enabled(TRUE)) {
-			sprintf(wp_end, "%s", "system");
-		} else {
-			sprintf(wp_end, "%s", "keystore");
-		}
-#else
-		sprintf(wp_end, "%s", "keystore");
-#endif
+		// End the security at the nvram partition rather than later to open up runtime flashing of the boot partition
+//#ifdef MTK_SECURITY_SW_SUPPORT
+//		if (TRUE == seclib_sec_boot_enabled(TRUE)) {
+//			sprintf(wp_end, "%s", "system");
+//		} else {
+//			sprintf(wp_end, "%s", "keystore");
+//		}
+//#else
+//		sprintf(wp_end, "%s", "keystore");
+//#endif
+		printf(wp_end, "%s", "nvram");
+
 		dprintf(INFO, "[%s]: Lock %s->%s \n", __func__, wp_start, wp_end);
 		err = partition_write_prot_set(wp_start, wp_end, WP_POWER_ON);
 		if (err != 0) {
